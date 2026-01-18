@@ -45,8 +45,12 @@
 
   /* Botones generales */
   .btn{ color:#fff; border:none; padding:.75rem 1.2rem; border-radius:10px; cursor:pointer; font-weight:800;
-        transition:transform .08s ease, box-shadow .2s ease, background-color .25s ease; height:48px;
-        display:inline-flex; align-items:center; justify-content:center; font-size: 1rem; }
+        transition:transform .08s ease, box-shadow .2s ease, background-color .25s ease; 
+        display:inline-flex; align-items:center; justify-content:center; font-size: 1rem;
+        /* Flex-shrink 0 para que no se estiren, y ancho automático basado en contenido */
+        flex-shrink: 0; 
+        width: auto; 
+  }
   .btn:hover{ transform:translateY(-2px); box-shadow:0 6px 14px rgba(0,0,0,.12); }
   .btn:active{ transform:translateY(0); }
   .btn-primary{ background:var(--orange); }
@@ -58,7 +62,7 @@
 
   /* Botones de clasificación */
   .classification-buttons {
-    display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; /* Cambiado de margin-bottom a margin-top */
+    display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;
     padding: 0 1rem;
     width: 100%; /* Asegurar que ocupa el espacio disponible */
   }
@@ -170,9 +174,6 @@
     /* Mantener los botones en la misma línea, sin apilarse */
     .classification-buttons { flex-wrap: nowrap; gap: 0.8rem; }
     
-    /* El ancho de los botones se adapta al contenido, no al 100% */
-    .btn { min-width: auto; width: auto; flex: 1 0 auto; }
-    
     .image-box { max-width: 300px; height: 300px; }
   }
 </style>
@@ -248,7 +249,7 @@
       <div id="finalMsg" class="subtitle"></div>
       <button class="btn btn-primary" id="backToMenuBtn">Volver al menú</button>
       <span class="credit">Creado por Manuel J. Ventura</span>
-      <img class="school-logo" src="https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/refs/heads/main/Siurot.png" alt="Logo del colegio" />
+      <img class="school-logo" src="https://raw.githubusercontent.com/ManuelVS8/Eudios-juegos-SCIENCE/refs/heads/main/Siurot.png" alt="Logo del colegio" />
     </div>
   </section>
 </div>
