@@ -56,13 +56,21 @@
 
   /* Botones de clasificación */
   .classification-buttons {
-    display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem;
+    display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; /* Cambiado de margin-bottom a margin-top */
     padding: 0 1rem;
   }
   #vertebradoBtn { background: var(--green); }
   #vertebradoBtn:hover { background: var(--green-dark); }
   #invertebradoBtn { background: var(--red); }
   #invertebradoBtn:hover { background: var(--red-dark); }
+
+  /* Iconos dentro de los botones */
+  .btn-icon {
+    width: 32px; /* Tamaño de icono ajustado */
+    height: 32px;
+    margin-left: 8px; /* Espacio entre texto e icono */
+    object-fit: contain;
+  }
   
   .screen{ display:none; animation:fadeIn .35s ease; flex:1; }
   .screen.active{ display:flex; flex-direction:column; }
@@ -83,7 +91,7 @@
   .progress-fill{ height:100%; width:0%; background:linear-gradient(90deg, var(--orange) 0%, var(--orange-700) 100%); transition:width .3s ease; }
   .score-label{ font-weight:900; color:var(--blue-700); font-size:clamp(.9rem,2.3vw,1.1rem); }
   
-  .stage-content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 1rem; }
+  .stage-content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 0 1rem; width: 100%; }
   
   /* Contenedor de imagen sin fondo y sin borde */
   .image-box {
@@ -99,6 +107,25 @@
       max-height: 100%; 
       height: auto; object-fit: contain;
       border-radius: 0;
+  }
+
+  /* Animación de "Sacudida" (Shake) */
+  @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }
+
+  .shake-anim {
+    animation: shake 0.5s;
   }
 
   /* Botón de Mute */
@@ -181,12 +208,19 @@
     </div>
 
     <div class="stage-content">
-        <div class="classification-buttons">
-            <button class="btn" id="vertebradoBtn" data-type="Vertebrado">Vertebrado</button>
-            <button class="btn" id="invertebradoBtn" data-type="Invertebrado">Invertebrado</button>
-        </div>
+        <!-- Imagen movida arriba -->
         <div class="image-box" id="imageBox">
             <img class="animal-image" id="animalImage" src="" alt="Imagen de animal a clasificar">
+        </div>
+        
+        <!-- Botones movidos abajo -->
+        <div class="classification-buttons">
+            <button class="btn" id="vertebradoBtn" data-type="Vertebrado">
+                Vertebrado <img src="https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/Animales_y_Plantas/Invertebrados/Vertebrado.png" alt="Icono hueso" class="btn-icon">
+            </button>
+            <button class="btn" id="invertebradoBtn" data-type="Invertebrado">
+                Invertebrado <img src="https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/Animales_y_Plantas/Invertebrados/No%20vertebrado.png" alt="Icono no hueso" class="btn-icon">
+            </button>
         </div>
     </div>
   </section>
@@ -422,6 +456,7 @@ function loadQuestion(){
   vertebradoBtn.disabled = false;
   invertebradoBtn.disabled = false;
   imageBox.style.opacity = '1';
+  imageBox.classList.remove('shake-anim'); // Quitar animación si existía
 
   const animal = animalsShuffled[currentQuestionIndex];
   animalImage.src = animal.url;
@@ -446,6 +481,8 @@ function onClassificationClick(selectedType){
     correctAnswers++;
   } else {
     reproducirSonidoError();
+    // Añadir animación de sacudida si es incorrecto
+    imageBox.classList.add('shake-anim');
   }
   
   const clickedBtn = selectedType === 'Vertebrado' ? vertebradoBtn : invertebradoBtn;
